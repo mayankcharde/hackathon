@@ -108,13 +108,20 @@ const ItemDetails = () => {
 
     setMsgLoading(true);
     try {
-      const formData = new FormData();
-      formData.append("itemId", id);
-      if (proofFile) formData.append("proofImage", proofFile);
+      let res;
 
-      const res = await api.post("/conversations", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      if (proofFile) {
+        const formData = new FormData();
+        formData.append("itemId", id);
+        formData.append("proofImage", proofFile);
+
+        // Let Axios/browser set multipart boundaries automatically.
+        res = await api.post("/conversations", formData);
+      } else {
+        // Existing conversations can be resumed without re-uploading proof.
+        res = await api.post("/conversations", { itemId: id });
+      }
+
       setConversation(res.data.data);
     } catch (err) {
       setError(
