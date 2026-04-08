@@ -10,6 +10,7 @@ import {
   Package,
   ChevronRight,
   Inbox,
+  ArrowLeft,
 } from "lucide-react";
 
 const Messages = () => {
@@ -18,6 +19,7 @@ const Messages = () => {
   const [loading, setLoading] = useState(true);
   const [suggestion, setSuggestion] = useState("");
   const [sugLoading, setSugLoading] = useState(false);
+  const [mobilePane, setMobilePane] = useState("list");
   const { user } = useAuth();
 
   useEffect(() => {
@@ -61,9 +63,11 @@ const Messages = () => {
     <div className="page-shell flex flex-col overflow-hidden">
       <Navbar />
 
-      <main className="page-container flex-1 flex overflow-hidden rounded-[2rem] shadow-2xl border border-slate-700/70 glass-morphism min-h-[calc(100vh-10rem)]">
+      <main className="page-container flex-1 flex md:flex-row flex-col overflow-hidden rounded-[2rem] shadow-2xl border border-slate-700/70 glass-morphism min-h-[calc(100vh-10rem)] md:min-h-[calc(100vh-10rem)]">
         {/* Sidebar: Conversations List */}
-        <aside className="w-full md:w-80 lg:w-96 bg-slate-900/70 border-r border-slate-700 flex flex-col shrink-0">
+        <aside
+          className={`w-full md:w-80 lg:w-96 bg-slate-900/70 border-r border-slate-700 flex-col shrink-0 md:flex ${mobilePane === "list" ? "flex" : "hidden"}`}
+        >
           <div className="p-8 border-b border-slate-700 flex items-center justify-between bg-slate-900/70 backdrop-blur-md">
             <h2 className="text-2xl font-black text-slate-100 flex items-center space-x-3">
               <Inbox className="w-6 h-6 text-cyan-300" />
@@ -98,6 +102,7 @@ const Messages = () => {
                     onClick={() => {
                       setSelectedConv(conv);
                       setSuggestion("");
+                      setMobilePane("chat");
                     }}
                     className={`w-full text-left p-6 transition-all duration-300 relative group flex items-start space-x-4 border-b border-slate-800 ${isSelected ? "bg-slate-800 shadow-xl z-10 scale-[1.02] rounded-r-3xl my-2" : "hover:bg-slate-800/60"}`}
                   >
@@ -147,7 +152,9 @@ const Messages = () => {
         </aside>
 
         {/* Content: Chat window & AI Tools */}
-        <section className="flex-1 bg-slate-950/20 flex flex-col relative overflow-hidden">
+        <section
+          className={`flex-1 bg-slate-950/20 flex flex-col relative overflow-hidden min-h-0 md:flex ${mobilePane === "chat" ? "flex" : "hidden"}`}
+        >
           <AnimatePresence mode="wait">
             {selectedConv ? (
               <motion.div
@@ -155,12 +162,18 @@ const Messages = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="flex flex-col h-full"
+                className="flex flex-col h-full min-h-0"
               >
                 {/* Header Header */}
-                <header className="p-8 border-b border-slate-700 bg-slate-900/60 flex items-center justify-between z-10 shrink-0">
+                <header className="p-4 md:p-8 border-b border-slate-700 bg-slate-900/60 flex items-center justify-between z-10 shrink-0 gap-3">
+                  <button
+                    onClick={() => setMobilePane("list")}
+                    className="md:hidden p-2 rounded-xl bg-slate-800 text-slate-200 shrink-0"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                  </button>
                   <div className="flex items-center space-x-5">
-                    <div className="w-14 h-14 bg-slate-800 rounded-3xl overflow-hidden border border-slate-700 shadow-inner">
+                    <div className="w-12 h-12 md:w-14 md:h-14 bg-slate-800 rounded-3xl overflow-hidden border border-slate-700 shadow-inner">
                       {selectedConv.itemId?.image ? (
                         <img
                           src={selectedConv.itemId.image}
@@ -174,12 +187,12 @@ const Messages = () => {
                       )}
                     </div>
                     <div>
-                      <h3 className="text-2xl font-black text-slate-100">
+                      <h3 className="text-lg md:text-2xl font-black text-slate-100">
                         {user._id === selectedConv.ownerId._id
                           ? selectedConv.founderId.name
                           : selectedConv.ownerId.name}
                       </h3>
-                      <div className="flex items-center space-x-3 text-xs text-slate-500 font-bold uppercase tracking-wider">
+                      <div className="hidden md:flex items-center space-x-3 text-xs text-slate-500 font-bold uppercase tracking-wider">
                         <span className="flex items-center space-x-1.5 text-cyan-300">
                           <div className="w-1.5 h-1.5 bg-cyan-300 rounded-full animate-pulse" />{" "}
                           <span>Conversation in Progress</span>
@@ -196,7 +209,7 @@ const Messages = () => {
                   <button
                     onClick={getAISuggestion}
                     disabled={sugLoading || !selectedConv.lastMessage}
-                    className="group relative flex items-center space-x-2 px-6 py-3 bg-cyan-600 text-white rounded-2xl font-bold shadow-xl shadow-cyan-900/50 hover:bg-cyan-500 transition-all disabled:opacity-20"
+                    className="group relative hidden md:flex items-center space-x-2 px-6 py-3 bg-cyan-600 text-white rounded-2xl font-bold shadow-xl shadow-cyan-900/50 hover:bg-cyan-500 transition-all disabled:opacity-20"
                   >
                     {sugLoading ? (
                       <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" />
@@ -207,9 +220,9 @@ const Messages = () => {
                   </button>
                 </header>
 
-                <div className="flex-1 flex flex-col md:flex-row overflow-hidden bg-slate-950/20">
+                <div className="flex-1 flex flex-col md:flex-row overflow-hidden bg-slate-950/20 min-h-0">
                   {/* Chat Container */}
-                  <div className="flex-1 p-6 md:p-8 flex flex-col overflow-hidden">
+                  <div className="flex-1 p-4 md:p-8 flex flex-col overflow-hidden min-h-0">
                     <Chat
                       conversationId={selectedConv._id}
                       recipientName={
@@ -218,6 +231,28 @@ const Messages = () => {
                           : selectedConv.ownerId.name
                       }
                     />
+                  </div>
+
+                  <div className="md:hidden px-4 pb-4">
+                    <button
+                      onClick={getAISuggestion}
+                      disabled={sugLoading || !selectedConv.lastMessage}
+                      className="w-full group relative flex items-center justify-center space-x-2 px-4 py-3 bg-cyan-600 text-white rounded-2xl font-bold shadow-xl shadow-cyan-900/50 hover:bg-cyan-500 transition-all disabled:opacity-20"
+                    >
+                      {sugLoading ? (
+                        <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" />
+                      ) : (
+                        <Wand2 className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                      )}
+                      <span>AI Suggest Reply</span>
+                    </button>
+                    {suggestion && (
+                      <div className="mt-3 p-4 bg-cyan-500/10 rounded-2xl border border-cyan-500/30">
+                        <p className="text-sm italic text-cyan-100 leading-relaxed font-medium">
+                          "{suggestion}"
+                        </p>
+                      </div>
+                    )}
                   </div>
 
                   {/* Sidebar info (AI results, Map if available) */}

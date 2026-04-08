@@ -79,7 +79,7 @@ const Chat = ({ conversationId, recipientName }) => {
   };
 
   return (
-    <div className="flex flex-col h-[550px] glass-morphism rounded-[2rem] shadow-2xl border border-slate-700/50 overflow-hidden relative">
+    <div className="flex flex-col h-full min-h-88 md:min-h-0 glass-morphism rounded-[2rem] shadow-2xl border border-slate-700/50 overflow-hidden relative">
       {/* Real-time Indicator */}
       <div className="absolute top-4 right-6 flex items-center space-x-2 z-10">
         <div
