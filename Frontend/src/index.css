@@ -1,0 +1,380 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap");
+@import "tailwindcss";
+
+:root {
+  --primary: #2dd4bf;
+  --primary-strong: #14b8a6;
+  --primary-glow: rgba(45, 212, 191, 0.32);
+  --secondary: #38bdf8;
+  --secondary-glow: rgba(56, 189, 248, 0.24);
+  --warning: #f59e0b;
+  --background: #05080f;
+  --surface-1: #0b1220;
+  --surface-2: #0f172a;
+  --surface-3: #111d34;
+  --glass: rgba(15, 23, 42, 0.58);
+  --glass-border: rgba(148, 163, 184, 0.18);
+  --glass-hover: rgba(30, 41, 59, 0.68);
+  --text-strong: #e2e8f0;
+  --text-muted: #94a3b8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--background);
+}
+
+body {
+  @apply antialiased overflow-x-hidden;
+  font-family: "Manrope", system-ui, sans-serif;
+  background-color: var(--background);
+  color: var(--text-strong);
+  background-image:
+    radial-gradient(
+      ellipse 80% 50% at 20% -20%,
+      rgba(45, 212, 191, 0.14) 0,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 85% 120%,
+      rgba(56, 189, 248, 0.1) 0,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 60% 40% at 50% 50%,
+      rgba(14, 165, 233, 0.06) 0,
+      transparent 70%
+    );
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Sora", sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.page-shell {
+  min-height: 100vh;
+  padding: 7.5rem 1rem 2.5rem;
+}
+
+.page-container {
+  width: 100%;
+  max-width: 78rem;
+  margin: 0 auto;
+}
+
+.page-container-narrow {
+  width: 100%;
+  max-width: 32rem;
+  margin: 0 auto;
+}
+
+.section-panel {
+  background: linear-gradient(
+    165deg,
+    rgba(15, 23, 42, 0.82),
+    rgba(11, 18, 32, 0.72)
+  );
+  border: 1px solid var(--glass-border);
+  border-radius: 2rem;
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+}
+
+/* ─── Glass Utilities ───────────────────────────────────── */
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(20px) saturate(200%);
+  -webkit-backdrop-filter: blur(20px) saturate(200%);
+  border: 1px solid var(--glass-border);
+}
+
+.glass-card {
+  background: var(--glass);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.glass-card:hover {
+  border-color: rgba(148, 163, 184, 0.36);
+  box-shadow:
+    0 12px 48px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 0 1px rgba(99, 102, 241, 0.15);
+}
+
+.glass-morphism {
+  background: linear-gradient(
+    165deg,
+    rgba(17, 29, 52, 0.62),
+    rgba(11, 18, 32, 0.58)
+  );
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.glass-strong {
+  background: rgba(17, 29, 52, 0.78);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 16px 64px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ─── Buttons ───────────────────────────────────────────── */
+.btn-primary {
+  @apply relative inline-flex items-center justify-center px-8 py-3 rounded-2xl font-bold tracking-tight transition-all duration-300 overflow-hidden select-none cursor-pointer text-white;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  box-shadow:
+    0 0 20px var(--primary-glow),
+    0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 100%
+  );
+  border-radius: inherit;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 40px var(--primary-glow),
+    0 8px 32px rgba(0, 0, 0, 0.4);
+  filter: brightness(1.1);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.btn-primary:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.btn-glass {
+  @apply inline-flex items-center justify-center px-6 py-2.5 rounded-xl font-semibold transition-all duration-300 text-slate-300;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+}
+
+.btn-glass:hover {
+  background: var(--glass-hover);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: white;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center px-6 py-2.5 rounded-xl font-semibold transition-all duration-300;
+  background: rgba(11, 18, 32, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.26);
+  color: #e2e8f0;
+}
+
+.btn-secondary:hover {
+  border-color: rgba(56, 189, 248, 0.45);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.14);
+}
+
+/* ─── Input Fields ──────────────────────────────────────── */
+.input-field {
+  @apply w-full px-5 py-3.5 rounded-2xl font-medium transition-all duration-300 outline-none;
+  background: rgba(11, 18, 32, 0.78);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: #e2e8f0;
+}
+
+.input-field::placeholder {
+  color: rgba(148, 163, 184, 0.6);
+}
+
+.input-field:focus {
+  background: rgba(15, 23, 42, 0.95);
+  border-color: rgba(56, 189, 248, 0.55);
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.14);
+}
+
+/* ─── Text Utilities ─────────────────────────────────────── */
+.text-gradient {
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(
+    135deg,
+    #2dd4bf 0%,
+    #38bdf8 55%,
+    #f59e0b 100%
+  );
+}
+
+.text-gradient-warm {
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(135deg, #2dd4bf, #0ea5e9);
+}
+
+/* ─── Glow Effects ───────────────────────────────────────── */
+.glow-indigo {
+  box-shadow: 0 0 40px rgba(99, 102, 241, 0.3);
+}
+
+.glow-purple {
+  box-shadow: 0 0 40px rgba(168, 85, 247, 0.3);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 40px rgba(34, 211, 238, 0.2);
+}
+
+/* ─── Custom Scrollbar ───────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.4);
+}
+
+/* ─── Animations ─────────────────────────────────────────── */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+@keyframes float-up {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-float {
+  animation: float-up 5s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 0.75;
+  }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 4s ease-in-out infinite;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.35) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.32);
+  border-radius: 999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.45);
+}
+
+/* ─── Orbital Decoration ─────────────────────────────────── */
+.orb {
+  @apply absolute rounded-full pointer-events-none;
+  filter: blur(80px);
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+.orb-indigo {
+  background: rgba(99, 102, 241, 0.18);
+}
+
+.orb-violet {
+  background: rgba(168, 85, 247, 0.15);
+}
+
+.orb-cyan {
+  background: rgba(34, 211, 238, 0.1);
+}
