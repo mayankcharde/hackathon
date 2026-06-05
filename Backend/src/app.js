@@ -18,6 +18,7 @@ const normalizeOrigin = (origin) => String(origin || "").replace(/\/+$/, "");
 
 const allowedOrigins = [
   "https://regal-cendol-2be6f2.netlify.app/",
+  "https://found-it-jet.vercel.app/",
   "http://localhost:5173",
   "http://localhost:3000",
   process.env.FRONTEND_URL,
